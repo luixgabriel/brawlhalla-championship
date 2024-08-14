@@ -1,9 +1,35 @@
 import { Tabs } from "expo-router";
 import React from "react";
-
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import ParticipateIcon from "../../assets/icons/participate.png";
+import { Image, Text, View } from "react-native";
+
+interface TabIconProps {
+  icon: any;
+  color: string;
+  name: string;
+  focused: boolean;
+}
+const TabIcon = ({ icon, color, name, focused }: TabIconProps) => {
+  return (
+    <View className="flex items-center justify-center gap-2">
+      <Image
+        source={icon}
+        resizeMode="contain"
+        tintColor={color}
+        className="w-6 h-6"
+      />
+      <Text
+        className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}
+        style={{ color: color }}
+      >
+        {name}
+      </Text>
+    </View>
+  );
+};
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -14,9 +40,9 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: "#161622",
+          backgroundColor: "#730065",
           borderTopWidth: 1,
-          borderTopColor: "#232533",
+          borderTopColor: "#730065",
           height: 84,
         },
       }}
@@ -37,9 +63,11 @@ export default function TabLayout() {
         name="ranking"
         options={{
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "code-slash" : "code-slash-outline"}
+            <TabIcon
+              icon={ParticipateIcon}
               color={color}
+              name="Ranking"
+              focused={focused}
             />
           ),
           tabBarLabel: () => null,

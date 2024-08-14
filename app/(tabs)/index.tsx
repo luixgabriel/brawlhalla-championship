@@ -44,7 +44,9 @@ export default function HomeScreen() {
         />
       </View>
       <View className="bg-yellow-200 flex-1 items-center mt-6 px-4">
-        <Text>Escolha seu campeão favorito</Text>
+        <Text style={{ fontFamily: "BlackOpsOne_400Regular" }}>
+          Escolha seu campeão favorito
+        </Text>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
