@@ -32,6 +32,7 @@ import {
   Poppins_900Black_Italic,
 } from "@expo-google-fonts/poppins";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { StatusBar } from "react-native";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -75,6 +76,7 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
+      <StatusBar barStyle="dark-content" />
     </ThemeProvider>
   );
 }
