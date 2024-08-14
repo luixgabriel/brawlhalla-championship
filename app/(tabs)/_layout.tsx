@@ -3,16 +3,22 @@ import React from "react";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import ParticipateIcon from "../../assets/icons/participate.png";
+
 import { Image, Text, View } from "react-native";
+import {
+  ChampionIcon,
+  ParticipateIcon,
+  PointsIcon,
+  RankingIcon,
+} from "@/constants/icons";
 
 interface TabIconProps {
   icon: any;
   color: string;
-  name: string;
   focused: boolean;
 }
-const TabIcon = ({ icon, color, name, focused }: TabIconProps) => {
+
+const TabIcon = ({ icon, color, focused }: TabIconProps) => {
   return (
     <View className="flex items-center justify-center gap-2">
       <Image
@@ -21,12 +27,6 @@ const TabIcon = ({ icon, color, name, focused }: TabIconProps) => {
         tintColor={color}
         className="w-6 h-6"
       />
-      <Text
-        className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}
-        style={{ color: color }}
-      >
-        {name}
-      </Text>
     </View>
   );
 };
@@ -51,10 +51,7 @@ export default function TabLayout() {
         name="index"
         options={{
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "home" : "home-outline"}
-              color={color}
-            />
+            <TabIcon icon={ParticipateIcon} color={color} focused={focused} />
           ),
           tabBarLabel: () => null,
         }}
@@ -63,12 +60,7 @@ export default function TabLayout() {
         name="ranking"
         options={{
           tabBarIcon: ({ color, focused }) => (
-            <TabIcon
-              icon={ParticipateIcon}
-              color={color}
-              name="Ranking"
-              focused={focused}
-            />
+            <TabIcon icon={RankingIcon} color={color} focused={focused} />
           ),
           tabBarLabel: () => null,
         }}
@@ -77,10 +69,7 @@ export default function TabLayout() {
         name="points"
         options={{
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "code-slash" : "code-slash-outline"}
-              color={color}
-            />
+            <TabIcon icon={PointsIcon} color={color} focused={focused} />
           ),
           tabBarLabel: () => null,
         }}
@@ -89,10 +78,7 @@ export default function TabLayout() {
         name="champion"
         options={{
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "code-slash" : "code-slash-outline"}
-              color={color}
-            />
+            <TabIcon icon={ChampionIcon} color={color} focused={focused} />
           ),
           tabBarLabel: () => null,
         }}
