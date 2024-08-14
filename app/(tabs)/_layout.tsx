@@ -24,8 +24,8 @@ const TabIcon = ({ icon, color, focused }: TabIconProps) => {
       <Image
         source={icon}
         resizeMode="contain"
-        tintColor={color}
-        className="w-6 h-6"
+        tintColor="#FFFFFF"
+        className="w-8 h-8"
       />
     </View>
   );
@@ -44,6 +44,7 @@ export default function TabLayout() {
           borderTopWidth: 1,
           borderTopColor: "#730065",
           height: 84,
+          borderTopLeftRadius: 10,
         },
       }}
     >
