@@ -9,7 +9,8 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import brawlhallaApi from "../../lib/brawlhallaApi";
-import brawnLogo from "../../assets/images/newlogo.png";
+import LegendCard from "@/components/legendCard";
+import { brawnLogo } from "@/constants/icons";
 export default function HomeScreen() {
   const [legends, setLegends] = useState<any>({});
   const [loading, setLoading] = useState(true);
@@ -41,11 +42,13 @@ export default function HomeScreen() {
       <View className="px-4">
         <TextInput
           placeholder="Seu Nome"
-          className="border border-primary p-2 mb-4 rounded-2xl"
+          className="border-2 border-primary p-2 mb-4 rounded-full font-medium px-5"
+          placeholderTextColor="#730065"
         />
         <TextInput
           placeholder="Chave Pix"
-          className="border border-primary p-2 rounded-2xl"
+          className="border-2 border-primary p-2 mb-4 rounded-full font-medium px-5"
+          placeholderTextColor="#730065"
         />
       </View>
       <View className="flex-1 items-center mt-6 px-4">
@@ -58,11 +61,8 @@ export default function HomeScreen() {
           <ScrollView className="border-2 border-primary  rounded-md w-full">
             <View className="flex-row gap-2 flex-wrap items-center justify-center py-2">
               {legends.map((item: any) => (
-                <View
-                  key={item.legend_id}
-                  className="border-2 border-red-400 w-[70px]"
-                >
-                  <Text>{item.bio_name}</Text>
+                <View key={item.legend_id} className="w-[70px]">
+                  <LegendCard imageUrl={item.thumbnail} />
                 </View>
               ))}
             </View>
