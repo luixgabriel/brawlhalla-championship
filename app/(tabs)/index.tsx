@@ -5,6 +5,7 @@ import {
   ScrollView,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -36,7 +37,7 @@ export default function HomeScreen() {
         <Image
           source={brawnLogo}
           resizeMode="contain"
-          className="w-[500px] h-[200px]"
+          className="w-[400] h-[150px]"
         />
       </View>
       <View className="px-4">
@@ -51,8 +52,8 @@ export default function HomeScreen() {
           placeholderTextColor="#730065"
         />
       </View>
-      <View className="flex-1 items-center mt-6 px-4">
-        <Text style={{ fontFamily: "BlackOpsOne_400Regular" }} className="my-2">
+      <View className="flex-1 items-center mt-1 px-4">
+        <Text style={{ fontFamily: "BlackOpsOne_400Regular" }} className="my-2 text-md">
           Escolha seu campeão favorito
         </Text>
         {loading ? (
@@ -61,9 +62,9 @@ export default function HomeScreen() {
           <ScrollView className="border-2 border-primary  rounded-md w-full">
             <View className="flex-row gap-2 flex-wrap items-center justify-center py-2">
               {legends.map((item: any) => (
-                <View key={item.legend_id} className="w-[70px]">
+                <TouchableOpacity key={item.legend_id} className="w-[70px]">
                   <LegendCard imageUrl={item.thumbnail} />
-                </View>
+                </TouchableOpacity>
               ))}
             </View>
           </ScrollView>
