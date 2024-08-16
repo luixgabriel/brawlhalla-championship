@@ -12,9 +12,22 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import brawlhallaApi from "../../lib/brawlhallaApi";
 import LegendCard from "@/components/legendCard";
 import { brawnLogo } from "@/constants/icons";
+import ConfirmationModal from "../../components/confirmationModal";
+
 export default function HomeScreen() {
-  const [legends, setLegends] = useState<any>({});
+  const [legends, setLegends] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [name, setName] = useState("");
+  const [pixKey, setPixKey] = useState("");
+  const [selectedLegend, setSelectedLegend] = useState<any>({});
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleSelectLegend = (item: any) => {
+    if (name.trim() !== "" && pixKey.trim() !== "") {
+      setModalVisible(true);
+    }
+    setSelectedLegend(item);
+  };
 
   const loadData = async () => {
     try {
@@ -24,6 +37,16 @@ export default function HomeScreen() {
       console.error("Error fetching legends:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const checkAndShowModal = () => {
+    if (
+      name.trim() !== "" &&
+      pixKey.trim() !== "" &&
+      selectedLegend.legend_id
+    ) {
+      setModalVisible(true);
     }
   };
 
@@ -37,7 +60,7 @@ export default function HomeScreen() {
         <Image
           source={brawnLogo}
           resizeMode="contain"
-          className="w-[400] h-[150px]"
+          className="w-[400px] h-[150px]"
         />
       </View>
       <View className="px-4">
@@ -45,24 +68,38 @@ export default function HomeScreen() {
           placeholder="Seu Nome"
           className="border-2 border-primary p-2 mb-4 rounded-full font-medium px-5"
           placeholderTextColor="#730065"
+          onChangeText={(text) => setName(text)}
+          value={name}
+          onBlur={checkAndShowModal} // Verifica ao sair do campo
         />
         <TextInput
           placeholder="Chave Pix"
           className="border-2 border-primary p-2 mb-4 rounded-full font-medium px-5"
           placeholderTextColor="#730065"
+          onChangeText={(text) => setPixKey(text)}
+          value={pixKey}
+          onBlur={checkAndShowModal} // Verifica ao sair do campo
         />
       </View>
       <View className="flex-1 items-center mt-1 px-4">
-        <Text style={{ fontFamily: "BlackOpsOne_400Regular" }} className="my-2 text-md">
+        <Text className="font-blackopsone my-2 text-md">
           Escolha seu campeão favorito
         </Text>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
-          <ScrollView className="border-2 border-primary  rounded-md w-full">
-            <View className="flex-row gap-2 flex-wrap items-center justify-center py-2">
+          <ScrollView className="border-2 border-primary rounded-md w-full">
+            <View className="flex-row flex-wrap items-center justify-center">
               {legends.map((item: any) => (
-                <TouchableOpacity key={item.legend_id} className="w-[70px]">
+                <TouchableOpacity
+                  key={item.legend_id}
+                  className={`w-[75px] h-[80px] p-2 flex items-center justify-center rounded-md mt-1 ${
+                    selectedLegend.legend_id === item.legend_id
+                      ? "bg-[#30f1dd]"
+                      : "bg-transparent"
+                  }`}
+                  onPress={() => handleSelectLegend(item)}
+                >
                   <LegendCard imageUrl={item.thumbnail} />
                 </TouchableOpacity>
               ))}
@@ -70,6 +107,14 @@ export default function HomeScreen() {
           </ScrollView>
         )}
       </View>
+
+      <ConfirmationModal
+        visible={modalVisible}
+        name={name}
+        pixKey={pixKey}
+        selectedLegend={selectedLegend}
+        onClose={() => setModalVisible(false)}
+      />
     </SafeAreaView>
   );
 }
