@@ -3,10 +3,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { brawnLogo } from "../../constants/icons";
 import users from "../../data/users";
 import UsersList from "../../components/usersList";
+import ContainerDefault from "../../components/ContainerDefault";
 
 export default function Ranking() {
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <ContainerDefault>
       <View className="mt-7 pb-5 flex items-center">
         <Image
           source={brawnLogo}
@@ -35,6 +36,6 @@ export default function Ranking() {
           ))}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </ContainerDefault>
   );
 }

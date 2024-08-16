@@ -8,11 +8,12 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import ContainerDefault from "../../components/ContainerDefault";
 
 export default function Points() {
   const [points, setPoints] = useState(2);
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <ContainerDefault>
       <View className="mt-7 flex items-center">
         <Text
           style={{ fontFamily: "Poppins_700Bold_Italic" }}
@@ -52,6 +53,6 @@ export default function Points() {
           </ImageBackground>
         </View>
       </View>
-    </SafeAreaView>
+    </ContainerDefault>
   );
 }

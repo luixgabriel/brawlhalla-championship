@@ -13,6 +13,7 @@ import brawlhallaApi from "../../lib/brawlhallaApi";
 import LegendCard from "@/components/legendCard";
 import { brawnLogo } from "@/constants/icons";
 import ConfirmationModal from "../../components/confirmationModal";
+import ContainerDefault from "../../components/ContainerDefault";
 
 export default function HomeScreen() {
   const [legends, setLegends] = useState<any[]>([]);
@@ -55,7 +56,7 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <ContainerDefault>
       <View className="mt-7 pb-5 flex items-center">
         <Image
           source={brawnLogo}
@@ -82,7 +83,10 @@ export default function HomeScreen() {
         />
       </View>
       <View className="flex-1 items-center mt-1 px-4">
-        <Text className="font-blackopsone my-2 text-md">
+        <Text
+          className=" my-2 text-md"
+          style={{ fontFamily: "BlackOpsOne_400Regular" }}
+        >
           Escolha seu campeão favorito
         </Text>
         {loading ? (
@@ -115,6 +119,6 @@ export default function HomeScreen() {
         selectedLegend={selectedLegend}
         onClose={() => setModalVisible(false)}
       />
-    </SafeAreaView>
+    </ContainerDefault>
   );
 }

@@ -1,11 +1,11 @@
 import React from "react";
-import { Modal, View, Text, Pressable } from "react-native";
+import { Modal, View, Text, Pressable, Image } from "react-native";
 
 type ConfirmationModalProps = {
   visible: boolean;
   name: string;
   pixKey: string;
-  selectedLegend: { name: string };
+  selectedLegend: { thumbnail: string };
   onClose: () => void;
 };
 
@@ -18,20 +18,47 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 }) => {
   return (
     <Modal
-      animationType="slide"
+      animationType="fade"
       transparent={true}
       visible={visible}
       onRequestClose={onClose}
     >
-      <View className="flex-1 justify-center items-center">
-        <View className="bg-white p-5 rounded-md shadow-md w-[80%]">
-          <Text className="text-lg font-bold mb-4">Confirmação</Text>
-          <Text className="mb-4">Nome: {name}</Text>
-          <Text className="mb-4">Chave Pix: {pixKey}</Text>
-          <Text className="mb-4">Lenda Selecionada: {selectedLegend.name}</Text>
-          <Pressable className="bg-blue-500 p-2 rounded-full" onPress={onClose}>
-            <Text className="text-white text-center">Fechar</Text>
-          </Pressable>
+      <View
+        className="flex-1 justify-center items-center bg-black"
+        style={{ backgroundColor: "rgba(84, 87, 92, 0.548)" }}
+      >
+        <View className="bg-white p-5 rounded-md border-2 border-primary w-[80%] h-[400px] flex items-center">
+          <Image
+            source={{
+              uri: selectedLegend.thumbnail,
+            }}
+            resizeMode="contain"
+            className="w-[120px] h-[120px] rounded-full bg-slate-300 mt-5 border-2 border-primary"
+          />
+          <Text
+            className="mt-4 text-xl text-primary mb-1"
+            style={{ fontFamily: "BlackOpsOne_400Regular" }}
+          >
+            {name}
+          </Text>
+          <Text className="mb-4 text-lg text-primary font-bold"> {pixKey}</Text>
+          <Text className="mt-8 text-slate-400">
+            Suas informações estão corretas?
+          </Text>
+          <View className="flex flex-row w-[90%] justify-center mt-3">
+            <Pressable
+              className="border-2 border-primary w-[120px] p-2 rounded-md mr-3"
+              onPress={onClose}
+            >
+              <Text className="text-green-600 font-bold text-center">SIM</Text>
+            </Pressable>
+            <Pressable
+              className="border-2 border-primary w-[120px] p-2 rounded-md"
+              onPress={onClose}
+            >
+              <Text className="text-red-600 font-bold text-center">EDITAR</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </Modal>

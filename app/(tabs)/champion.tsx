@@ -1,10 +1,11 @@
 import { Image, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { brawnLogo, championCrown, copyAndPaste } from "../../constants/icons";
+import ContainerDefault from "../../components/ContainerDefault";
 
 export default function Champion() {
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <ContainerDefault>
       <View className="mt-7 pb-5 flex items-center">
         <Image
           source={brawnLogo}
@@ -68,6 +69,6 @@ export default function Champion() {
           </Text>
         </View>
       </View>
-    </SafeAreaView>
+    </ContainerDefault>
   );
 }
