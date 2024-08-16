@@ -33,6 +33,7 @@ export default function UsersList({ avatar, name, victorys }: Users) {
             {displayName}
           </Text>
         </View>
+        <Text className="text-lg font-bold">{victorys}</Text>
       </View>
     </View>
   );

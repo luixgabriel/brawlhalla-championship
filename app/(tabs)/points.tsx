@@ -10,6 +10,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Points() {
+  const [points, setPoints] = useState(2);
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="mt-7 flex items-center">
@@ -33,8 +34,20 @@ export default function Points() {
                   uri: "https://cms.brawlhalla.com/c/uploads/2021/07/bodvar.png",
                 }}
                 resizeMode="contain"
-                className="w-[70px] h-[70px] rounded-full"
+                className="w-[70px] h-[70px] rounded-full mt-3"
               />
+              <View className="bg-primary flex flex-row w-[140px] p-1 items-center justify-center mt-4">
+                <TouchableOpacity
+                  className="mr-5 px-4"
+                  onPress={() => setPoints(points + 1)}
+                >
+                  <Text className="text-white text-lg font-bold">-</Text>
+                </TouchableOpacity>
+                <Text className="text-white text-lg font-bold">{points}</Text>
+                <TouchableOpacity className="ml-5">
+                  <Text className="text-white text-lg font-bold px-4">+</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </ImageBackground>
         </View>
