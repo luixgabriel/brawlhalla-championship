@@ -1,5 +1,15 @@
-import React from "react";
-import { Modal, View, Text, Pressable, Image } from "react-native";
+import React, { useState } from "react";
+import {
+  Modal,
+  View,
+  Text,
+  Pressable,
+  Image,
+  ActivityIndicator,
+} from "react-native";
+import championshipApi from "../lib/championshipApi";
+import Toast from "react-native-toast-message";
+import { router } from "expo-router";
 
 type ConfirmationModalProps = {
   visible: boolean;
@@ -16,6 +26,28 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   selectedLegend,
   onClose,
 }) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const handleCreateUser = async () => {
+    setLoading(true);
+    try {
+      await championshipApi.post("users", {
+        name,
+        pix_key: pixKey,
+        avatar_url: selectedLegend.thumbnail,
+      });
+      Toast.show({
+        type: "success",
+        text1: "Sucesso!",
+        text2: "Você está participando do campeonato!",
+      });
+    } catch (error) {
+      console.error("Error creating user:", error);
+    } finally {
+      setLoading(false);
+      router.push("/ranking");
+      onClose();
+    }
+  };
   return (
     <Modal
       animationType="fade"
@@ -46,18 +78,28 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             Suas informações estão corretas?
           </Text>
           <View className="flex flex-row w-[90%] justify-center mt-3">
-            <Pressable
-              className="border-2 border-primary w-[120px] p-2 rounded-md mr-3"
-              onPress={onClose}
-            >
-              <Text className="text-green-600 font-bold text-center">SIM</Text>
-            </Pressable>
-            <Pressable
-              className="border-2 border-primary w-[120px] p-2 rounded-md"
-              onPress={onClose}
-            >
-              <Text className="text-red-600 font-bold text-center">EDITAR</Text>
-            </Pressable>
+            {loading ? (
+              <ActivityIndicator size="large" color="#730065" />
+            ) : (
+              <>
+                <Pressable
+                  className="border-2 border-primary w-[120px] p-2 rounded-md mr-3"
+                  onPress={handleCreateUser}
+                >
+                  <Text className="text-green-600 font-bold text-center">
+                    SIM
+                  </Text>
+                </Pressable>
+                <Pressable
+                  className="border-2 border-primary w-[120px] p-2 rounded-md"
+                  onPress={onClose}
+                >
+                  <Text className="text-red-600 font-bold text-center">
+                    EDITAR
+                  </Text>
+                </Pressable>
+              </>
+            )}
           </View>
         </View>
       </View>

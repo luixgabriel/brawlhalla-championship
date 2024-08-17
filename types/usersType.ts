@@ -2,5 +2,6 @@ export type Users = {
   id: number;
   name: string;
   victorys: number;
-  avatar: string;
+  pix_key: string;
+  avatar_url: string;
 };

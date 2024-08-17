@@ -11,6 +11,7 @@ import {
   useFonts,
   BlackOpsOne_400Regular,
 } from "@expo-google-fonts/black-ops-one";
+import Toast from "react-native-toast-message";
 import {
   Poppins_100Thin,
   Poppins_100Thin_Italic,
@@ -77,6 +78,7 @@ export default function RootLayout() {
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar barStyle="dark-content" />
+      <Toast />
     </ThemeProvider>
   );
 }

@@ -30,6 +30,13 @@ export default function HomeScreen() {
     setSelectedLegend(item);
   };
 
+  const handleCloseModal = () => {
+    setName("");
+    setPixKey("");
+    setSelectedLegend({});
+    setModalVisible(false);
+  };
+
   const loadData = async () => {
     try {
       const champions = await brawlhallaApi.get("/legends/all");
@@ -90,7 +97,7 @@ export default function HomeScreen() {
           Escolha seu campeão favorito
         </Text>
         {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color="#730065" />
         ) : (
           <ScrollView className="border-2 border-primary rounded-md w-full">
             <View className="flex-row flex-wrap items-center justify-center">
@@ -117,7 +124,7 @@ export default function HomeScreen() {
         name={name}
         pixKey={pixKey}
         selectedLegend={selectedLegend}
-        onClose={() => setModalVisible(false)}
+        onClose={handleCloseModal}
       />
     </ContainerDefault>
   );
