@@ -42,7 +42,7 @@ export default function Points() {
       loadData();
     }, [])
   );
-  
+
   return (
     <ContainerDefault>
       <ScrollView>
@@ -60,6 +60,7 @@ export default function Points() {
               {users.length > 0 &&
                 users.map((item: any) => (
                   <PointsCard
+                    id={item.id}
                     imageUri={item.avatar_url}
                     initialPoints={item.victorys}
                     name={item.name}

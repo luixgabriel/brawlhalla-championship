@@ -12,14 +12,14 @@ export default function UsersList({
   name,
   victorys,
 }: UsersListProps) {
+
   function getVictoryBarWidth() {
-    const maxVictorys = 10;
+    const maxVictorys = 20;
     const maxWidth = 100;
 
     if (victorys < 0) victorys = 0;
-    if (victorys > maxVictorys) victorys = maxVictorys;
 
-    return (victorys / maxVictorys) * maxWidth;
+    return (Math.min(victorys, maxVictorys) / maxVictorys) * maxWidth;
   }
 
   const displayName = victorys <= 3 ? `${name.slice(0, -3)}...` : name;

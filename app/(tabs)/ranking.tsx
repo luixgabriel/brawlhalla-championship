@@ -9,17 +9,17 @@ import { useFocusEffect } from "expo-router";
 
 export default function Ranking() {
   const [users, setUsers] = useState<any>([]);
-  const [loading, setLoading] = useState<boolean>(true); // Inicializa com true
+  const [loading, setLoading] = useState<boolean>(true);
 
   const loadData = async () => {
-    setLoading(true); // Começa o carregamento
+    setLoading(true);
     try {
       const response = await championshipApi.get("users");
       setUsers(response.data);
     } catch (error) {
       console.error("Failed to load users:", error);
     } finally {
-      setLoading(false); // Termina o carregamento
+      setLoading(false);
     }
   };
 
@@ -29,7 +29,6 @@ export default function Ranking() {
 
   useFocusEffect(
     useCallback(() => {
-      // Disparar a request quando a tela ganhar o foco
       loadData();
     }, [])
   );
