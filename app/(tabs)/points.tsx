@@ -42,6 +42,7 @@ export default function Points() {
       loadData();
     }, [])
   );
+  
   return (
     <ContainerDefault>
       <ScrollView>
