@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Markts Championship",
-    "slug": "markts championship",
+    "slug": "marktsChampionship",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/applogo.png",
@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.luixgabriel.marktsChampionship"
     },
     "web": {
       "bundler": "metro",
@@ -31,6 +32,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "b2ef3d36-ba7f-45c2-ac22-0b542d1a2ea5"
+      }
     }
   }
 }
