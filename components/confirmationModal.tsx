@@ -30,21 +30,29 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   const handleCreateUser = async () => {
     setLoading(true);
     try {
-      await championshipApi.post("users", {
+      const t = await championshipApi.post("users", {
         name,
         pix_key: pixKey,
         avatar_url: selectedLegend.thumbnail,
       });
+      console.log(t);
       Toast.show({
         type: "success",
         text1: "Sucesso!",
         text2: "Você está participando do campeonato!",
       });
-    } catch (error) {
+      router.push("/ranking");
+    } catch (error: any) {
+      if(error.response.status === 502){
+        Toast.show({
+          type: "error",
+          text1: "Atenção!",
+          text2: "O servidor está com problemas. Tente novamente mais tarde.",
+        });
+      }
       console.error("Error creating user:", error);
     } finally {
       setLoading(false);
-      router.push("/ranking");
       onClose();
     }
   };

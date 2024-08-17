@@ -9,12 +9,20 @@ import * as Clipboard from "expo-clipboard";
 import { brawnLogo, championCrown, copyAndPaste } from "../../constants/icons";
 import ContainerDefault from "../../components/ContainerDefault";
 import { useEffect, useState } from "react";
+import {
+  differenceInMilliseconds,
+  formatDuration,
+  intervalToDuration,
+} from "date-fns";
+import { ptBR } from "date-fns/locale";
 import championshipApi from "../../lib/championshipApi";
 import Toast from "react-native-toast-message";
 
 export default function Champion() {
   const [champion, setChampion] = useState<any>({});
   const [loading, setLoading] = useState(false);
+  const [currentChampionship, setCurrentChampionship] = useState<any>({});
+  const [timeRemaining, setTimeRemaining] = useState("");
 
   const copyPixKeyToClipboard = async (pix_key: string) => {
     await Clipboard.setStringAsync(pix_key);
@@ -28,7 +36,6 @@ export default function Champion() {
     setLoading(true);
     try {
       const response = await championshipApi.get("championship/last-champion");
-      console.log("Champion Data:", response.data);
       setChampion(response.data);
     } catch (error) {
       console.error("Failed to load champion:", error);
@@ -37,9 +44,44 @@ export default function Champion() {
     }
   };
 
+  const loadCurrentChampionship = async () => {
+    setLoading(true);
+    try {
+      const response = await championshipApi.get("championship/current");
+      setCurrentChampionship(response.data);
+    } catch (error) {
+      console.error("Failed to load championship:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     loadData();
+    loadCurrentChampionship();
   }, []);
+
+  useEffect(() => {
+    if (currentChampionship?.end_date) {
+      const updateTimer = () => {
+        const now = new Date();
+        const endDate = new Date(currentChampionship.end_date);
+        const duration = intervalToDuration({ start: now, end: endDate });
+
+        setTimeRemaining(
+          formatDuration(duration, {
+            format: ["days", "hours", "minutes", "seconds"],
+            locale: ptBR,
+          })
+        );
+      };
+
+      updateTimer();
+      const intervalId = setInterval(updateTimer, 1000);
+
+      return () => clearInterval(intervalId); // Limpa o intervalo quando o componente é desmontado
+    }
+  }, [currentChampionship?.end_date]);
 
   return (
     <ContainerDefault>
@@ -122,10 +164,18 @@ export default function Champion() {
                 >
                   Tempo restante para finalização do campeonato atual.
                 </Text>
+                <Text
+                  style={{ fontFamily: "Poppins_700Bold" }}
+                  className="text-lg text-center mt-2"
+                >
+                  {timeRemaining}
+                </Text>
               </View>
             </>
           ) : (
-            <Text>Dados do campeão não encontrados</Text>
+            <Text style={{ fontFamily: "BlackOpsOne_400Regular" }}>
+              Dados do campeão não encontrados.
+            </Text>
           )}
         </View>
       )}
