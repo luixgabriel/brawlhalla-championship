@@ -1,5 +1,4 @@
 import { ActivityIndicator, Image, ScrollView, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { brawnLogo } from "../../constants/icons";
 import ContainerDefault from "../../components/ContainerDefault";
 import { useCallback, useEffect, useState } from "react";
@@ -57,7 +56,7 @@ export default function Ranking() {
           <ActivityIndicator size="large" color="#730065" />
         ) : (
           <View className="flex-1 items-center">
-            {users.length > 0 ? (
+            {users.length > 0 &&
               users.map((item: any) => (
                 <UsersList
                   avatar_url={item.avatar_url}
@@ -65,10 +64,7 @@ export default function Ranking() {
                   key={item.id}
                   victorys={item.victorys}
                 />
-              ))
-            ) : (
-              <Text>No users found.</Text>
-            )}
+              ))}
           </View>
         )}
       </ScrollView>

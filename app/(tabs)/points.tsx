@@ -1,58 +1,74 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   Image,
   ImageBackground,
   Modal,
+  ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ContainerDefault from "../../components/ContainerDefault";
+import PointsCard from "../../components/pointsCard";
+import championshipApi from "../../lib/championshipApi";
+import { useFocusEffect } from "expo-router";
 
 export default function Points() {
   const [points, setPoints] = useState(2);
+  const [users, setUsers] = useState<any>([]);
+
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const response = await championshipApi.get("users");
+      setUsers(response.data);
+    } catch (error) {
+      console.error("Failed to load users:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+    }, [])
+  );
   return (
     <ContainerDefault>
-      <View className="mt-7 flex items-center">
-        <Text
-          style={{ fontFamily: "Poppins_700Bold_Italic" }}
-          className="text-lg text-primary"
-        >
-          Pontuação
-        </Text>
-        <View className="h-[180px] w-[250px] rounded-2xl overflow-hidden mt-5">
-          <ImageBackground
-            className="h-full w-full"
-            source={{
-              uri: "https://cms.brawlhalla.com/c/uploads/2021/07/bodvar.png",
-            }} // Substitua pelo URL da sua imagem ou importe uma local
+      <ScrollView>
+        <View className="mt-7 flex items-center">
+          <Text
+            style={{ fontFamily: "Poppins_700Bold_Italic" }}
+            className="text-lg text-primary"
           >
-            <View className="bg-black opacity-70 h-[180px] w-[250px]" />
-            <View className="w-full h-full z-10 absolute flex items-center">
-              <Image
-                source={{
-                  uri: "https://cms.brawlhalla.com/c/uploads/2021/07/bodvar.png",
-                }}
-                resizeMode="contain"
-                className="w-[70px] h-[70px] rounded-full mt-3"
-              />
-              <View className="bg-primary flex flex-row w-[140px] p-1 items-center justify-center mt-4">
-                <TouchableOpacity
-                  className="mr-5 px-4"
-                  onPress={() => setPoints(points + 1)}
-                >
-                  <Text className="text-white text-lg font-bold">-</Text>
-                </TouchableOpacity>
-                <Text className="text-white text-lg font-bold">{points}</Text>
-                <TouchableOpacity className="ml-5">
-                  <Text className="text-white text-lg font-bold px-4">+</Text>
-                </TouchableOpacity>
-              </View>
+            Pontuação
+          </Text>
+          {loading ? (
+            <ActivityIndicator size="large" color="#730065" />
+          ) : (
+            <View className="flex-1 items-center">
+              {users.length > 0 &&
+                users.map((item: any) => (
+                  <PointsCard
+                    imageUri={item.avatar_url}
+                    initialPoints={item.victorys}
+                    name={item.name}
+                    key={item.id}
+                  />
+                ))}
             </View>
-          </ImageBackground>
+          )}
         </View>
-      </View>
+      </ScrollView>
     </ContainerDefault>
   );
 }
